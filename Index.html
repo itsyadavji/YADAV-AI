@@ -1,503 +1,213 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YADAV AI</title>
+'use client'
 
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif;
-}
+import { useState } from 'react'
+import {
+  Activity,
+  AudioLines,
+  BrainCircuit,
+  Check,
+  ChevronRight,
+  CircleHelp,
+  Command,
+  Cpu,
+  Database,
+  Home,
+  Layers3,
+  MessageCircle,
+  MoreHorizontal,
+  Radio,
+  Settings2,
+  ShieldCheck,
+  Sparkles,
+  TerminalSquare,
+  UserRound,
+} from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
-body{
-  background:#05070d;
-  color:white;
-  min-height:100vh;
-  overflow-x:hidden;
-}
+const modules = [
+  { name: 'Memory', icon: Database, detail: 'Long-term recall is synchronized across 12 knowledge clusters.' },
+  { name: 'Chat', icon: MessageCircle, detail: 'Conversation engine is ready. Your context is fully loaded.' },
+  { name: 'Soul', icon: Sparkles, detail: 'Personality matrix is stable with a 98.4% coherence score.' },
+  { name: 'Settings', icon: Settings2, detail: 'All system preferences are calibrated to your workspace.' },
+]
 
-.app{
-  max-width:500px;
-  min-height:100vh;
-  margin:auto;
-  padding:20px 16px 90px;
-  background:
-    radial-gradient(circle at 50% 25%,#172044 0%,#080b14 32%,#05070d 70%);
-}
+const navItems = [
+  { name: 'Home', icon: Home },
+  { name: 'Activity', icon: Activity },
+  { name: 'Insights', icon: Layers3 },
+  { name: 'Profile', icon: UserRound },
+]
 
-.top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
+const logEntries = [
+  { time: '09:41:26', label: 'Neural link established', status: 'ok' },
+  { time: '09:41:24', label: 'Memory lattice synced', status: 'ok' },
+  { time: '09:41:18', label: 'Signal integrity nominal', status: 'ok' },
+  { time: '09:41:12', label: 'Ambient model updated', status: 'sync' },
+]
 
-.logo{
-  font-size:24px;
-  font-weight:800;
-  letter-spacing:2px;
-}
+export function AiDashboard() {
+  const [activeModule, setActiveModule] = useState('Memory')
+  const [activeNav, setActiveNav] = useState('Home')
+  const selectedModule = modules.find((module) => module.name === activeModule) ?? modules[0]
 
-.status{
-  font-size:11px;
-  color:#55ffb0;
-  border:1px solid #235f49;
-  padding:6px 10px;
-  border-radius:20px;
-}
+  return (
+    <main className="dashboard-shell min-h-screen px-4 pb-28 pt-5 sm:px-8 sm:pt-8">
+      <div className="dashboard-frame mx-auto flex w-full max-w-6xl flex-col">
+        <header className="dashboard-header flex items-center justify-between gap-4">
+          <a href="#overview" className="brand-lockup flex items-center gap-3" aria-label="Nexa intelligence dashboard">
+            <span className="brand-mark grid size-10 place-items-center rounded-xl">
+              <Command aria-hidden="true" />
+            </span>
+            <span className="flex flex-col gap-0.5">
+              <span className="brand-name">NEXA<span className="brand-period">.</span></span>
+              <span className="brand-subtitle">PERSONAL INTELLIGENCE</span>
+            </span>
+          </a>
+          <div className="header-status flex items-center gap-2 rounded-full px-3 py-2 sm:px-4">
+            <span className="live-indicator" aria-hidden="true" />
+            <span className="text-[10px] font-semibold tracking-[0.14em] sm:text-xs">SYSTEM ONLINE</span>
+            <span className="hidden text-xs text-muted-foreground sm:inline">·</span>
+            <span className="hidden font-mono text-[11px] text-muted-foreground sm:inline">NODE 08</span>
+          </div>
+          <Button variant="ghost" size="icon" className="header-help rounded-full" aria-label="Help and system guide">
+            <CircleHelp aria-hidden="true" />
+          </Button>
+        </header>
 
-.subtitle{
-  margin-top:8px;
-  color:#7f8aa3;
-  font-size:13px;
-}
+        <section id="overview" className="dashboard-intro mt-9 flex flex-col gap-2 sm:mt-12">
+          <p className="eyebrow flex items-center gap-2"><span className="eyebrow-line" /> YOUR MIND, IN SYNC</p>
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h1 className="text-3xl font-medium tracking-[-0.055em] sm:text-5xl">Good morning, Alex<span className="text-primary">.</span></h1>
+              <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground sm:text-base">Your intelligence network is clear and ready to think with you.</p>
+            </div>
+            <div className="hidden items-center gap-2 rounded-full border border-border/70 bg-card/50 px-3 py-2 font-mono text-[11px] text-muted-foreground sm:flex">
+              <AudioLines className="size-3.5 text-primary" aria-hidden="true" />
+              <span>ALL SYSTEMS NOMINAL</span>
+            </div>
+          </div>
+        </section>
 
-.orb-area{
-  height:330px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
+        <section className="network-panel relative mt-7 overflow-hidden rounded-[1.75rem] border border-border/70 sm:mt-9" aria-label="AI system core and modules">
+          <div className="network-panel-top relative z-10 flex items-center justify-between px-5 pt-5 sm:px-7 sm:pt-6">
+            <div>
+              <p className="panel-kicker">NEURAL NETWORK</p>
+              <p className="mt-1 text-xs text-muted-foreground">Your personal intelligence, at a glance</p>
+            </div>
+            <span className="network-tag rounded-full px-2.5 py-1 font-mono text-[9px] tracking-[0.12em] sm:text-[10px]">V 2.8.04</span>
+          </div>
 
-.orb{
-  width:190px;
-  height:190px;
-  border-radius:50%;
-  position:relative;
-  background:
-    radial-gradient(circle at 40% 35%,#ffffff 0%,#9adfff 5%,#477cff 20%,#7b22ff 42%,#111a4b 65%,#05070d 75%);
-  box-shadow:
-    0 0 25px #477cff,
-    0 0 70px #633cff,
-    0 0 130px #252dff;
-  animation:pulse 3s infinite ease-in-out;
-}
+          <div className="network-stage relative mx-auto mt-2 flex h-[278px] w-full max-w-[700px] items-center justify-between px-5 sm:h-[330px] sm:px-12">
+            <svg className="network-lines pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 700 330" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="connection" x1="0" x2="1">
+                  <stop offset="0" stopColor="currentColor" stopOpacity=".16" />
+                  <stop offset="1" stopColor="currentColor" stopOpacity=".68" />
+                </linearGradient>
+              </defs>
+              <path d="M150 55 C245 55 245 165 350 165" />
+              <path d="M150 128 C245 128 245 165 350 165" />
+              <path d="M150 202 C245 202 245 165 350 165" />
+              <path d="M150 275 C245 275 245 165 350 165" />
+              <circle cx="350" cy="165" r="3" />
+            </svg>
 
-.orb:before,
-.orb:after{
-  content:"";
-  position:absolute;
-  inset:-20px;
-  border:1px solid rgba(95,145,255,.35);
-  border-radius:50%;
-  animation:spin 8s linear infinite;
-}
+            <div className="module-list relative z-10 flex flex-col gap-3 sm:gap-4">
+              {modules.map(({ name, icon: Icon }) => (
+                <Button
+                  key={name}
+                  variant="ghost"
+                  aria-pressed={activeModule === name}
+                  onClick={() => setActiveModule(name)}
+                  className={`module-pill justify-start rounded-full border px-3.5 py-2.5 text-xs sm:min-w-36 sm:px-4 sm:py-3 sm:text-sm ${activeModule === name ? 'module-pill-active' : ''}`}
+                >
+                  <Icon data-icon="inline-start" aria-hidden="true" />
+                  {name}
+                  {activeModule === name && <span className="module-selected-dot ml-auto" aria-hidden="true" />}
+                </Button>
+              ))}
+            </div>
 
-.orb:after{
-  inset:-35px;
-  border-color:rgba(155,80,255,.2);
-  animation-direction:reverse;
-  animation-duration:12s;
-}
+            <div className="core-wrap relative z-10 grid place-items-center" aria-label="AI core status: active">
+              <div className="core-orbit core-orbit-outer" />
+              <div className="core-orbit core-orbit-inner" />
+              <div className="core-glow" />
+              <div className="core-sphere grid place-items-center">
+                <div className="core-sphere-inner grid place-items-center">
+                  <BrainCircuit className="core-icon" aria-hidden="true" />
+                </div>
+              </div>
+              <div className="core-caption absolute -bottom-9 flex flex-col items-center gap-1 text-center">
+                <span className="font-mono text-[9px] tracking-[0.2em] text-muted-foreground">NEXA CORE</span>
+                <span className="flex items-center gap-1.5 text-[10px] font-medium text-primary"><span className="live-indicator live-indicator-small" /> ACTIVE</span>
+              </div>
+            </div>
+          </div>
 
-@keyframes pulse{
-  0%,100%{transform:scale(1)}
-  50%{transform:scale(1.06)}
-}
+          <div className="network-footer relative z-10 flex items-center justify-between gap-3 border-t border-border/60 px-5 py-3.5 sm:px-7">
+            <p className="min-w-0 truncate text-xs text-muted-foreground"><span className="text-foreground">{activeModule}:</span> {selectedModule.detail}</p>
+            <button className="network-more rounded-full p-2" aria-label="More network options" type="button"><MoreHorizontal aria-hidden="true" /></button>
+          </div>
+        </section>
 
-@keyframes spin{
-  from{transform:rotate(0deg)}
-  to{transform:rotate(360deg)}
-}
+        <section className="insight-grid mt-4 grid grid-cols-1 gap-4 sm:mt-5 sm:grid-cols-[1.05fr_0.95fr]" aria-label="Intelligence and system activity">
+          <article className="brief-card rounded-2xl border border-border/70 p-4 sm:p-5">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="panel-kicker">INTELLIGENCE BRIEF</p>
+                <p className="mt-1 text-[11px] text-muted-foreground">A little clarity for today</p>
+              </div>
+              <span className="brief-icon grid size-9 place-items-center rounded-xl"><Sparkles aria-hidden="true" /></span>
+            </div>
+            <p className="brief-copy mt-4 text-[13px] leading-[1.65] text-foreground/90">You&apos;ve been circling a big idea this week. Your notes on <span className="text-primary">creative focus</span> connect with a pattern from last month—want to pick up that thread?</p>
+            <button type="button" className="brief-action mt-4 inline-flex items-center gap-1.5 text-xs font-medium text-primary">Explore the connection <ChevronRight aria-hidden="true" /></button>
+          </article>
 
-.greeting{
-  text-align:center;
-  margin-top:-15px;
-}
+          <article className="log-card rounded-2xl border border-border/70 p-4 sm:p-5" aria-live="polite">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="panel-kicker">SYSTEM LOG</p>
+                <p className="mt-1 text-[11px] text-muted-foreground">Live activity stream</p>
+              </div>
+              <span className="log-stream-badge flex items-center gap-1.5 rounded-full px-2 py-1 font-mono text-[9px] tracking-[0.1em]"><span className="live-indicator live-indicator-small" /> LIVE</span>
+            </div>
+            <div className="mt-4 flex flex-col gap-3">
+              {logEntries.map((entry) => (
+                <div key={entry.time} className="log-entry flex min-w-0 items-center gap-2.5">
+                  <span className={`log-entry-mark ${entry.status === 'sync' ? 'log-entry-mark-sync' : ''}`} aria-hidden="true">{entry.status === 'sync' ? <Radio /> : <Check />}</span>
+                  <span className="min-w-0 flex-1 truncate text-[11px] text-foreground/80">{entry.label}</span>
+                  <time className="shrink-0 font-mono text-[9px] text-muted-foreground">{entry.time}</time>
+                </div>
+              ))}
+            </div>
+          </article>
+        </section>
 
-.greeting h1{
-  font-size:27px;
-}
-
-.greeting p{
-  color:#8c96ad;
-  margin-top:7px;
-  font-size:14px;
-}
-
-.cards{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin-top:25px;
-}
-
-.card{
-  background:rgba(16,20,34,.85);
-  border:1px solid #202941;
-  border-radius:18px;
-  padding:18px;
-  min-height:115px;
-}
-
-.card .icon{
-  font-size:24px;
-  margin-bottom:12px;
-}
-
-.card h3{
-  font-size:15px;
-  margin-bottom:5px;
-}
-
-.card p{
-  color:#727d95;
-  font-size:11px;
-}
-
-.intelligence{
-  margin-top:14px;
-  background:rgba(16,20,34,.9);
-  border:1px solid #202941;
-  border-radius:18px;
-  padding:18px;
-}
-
-.intel-top{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:15px;
-}
-
-.intel-top h3{
-  font-size:15px;
-}
-
-.online{
-  color:#55ffb0;
-  font-size:11px;
-}
-
-.line{
-  height:7px;
-  background:#20283a;
-  border-radius:10px;
-  overflow:hidden;
-}
-
-.line span{
-  display:block;
-  width:82%;
-  height:100%;
-  background:linear-gradient(90deg,#477cff,#a348ff);
-  border-radius:10px;
-}
-
-.log{
-  margin-top:13px;
-  color:#69748c;
-  font-size:11px;
-}
-
-.chat{
-  display:none;
-  margin-top:20px;
-}
-
-.messages{
-  height:55vh;
-  overflow-y:auto;
-  padding:5px;
-}
-
-.message{
-  padding:12px 14px;
-  margin:8px 0;
-  border-radius:15px;
-  max-width:85%;
-  font-size:14px;
-  line-height:1.4;
-}
-
-.user{
-  margin-left:auto;
-  background:#263a75;
-}
-
-.ai{
-  background:#151b2b;
-  border:1px solid #273149;
-}
-
-.input-area{
-  display:flex;
-  gap:8px;
-  margin-top:10px;
-}
-
-.input-area input{
-  flex:1;
-  background:#111625;
-  color:white;
-  border:1px solid #29334a;
-  border-radius:14px;
-  padding:14px;
-  outline:none;
-}
-
-.input-area button{
-  width:50px;
-  border:0;
-  border-radius:14px;
-  background:#477cff;
-  color:white;
-  font-size:20px;
-}
-
-.nav{
-  position:fixed;
-  bottom:10px;
-  left:50%;
-  transform:translateX(-50%);
-  width:calc(100% - 24px);
-  max-width:476px;
-  background:rgba(12,16,28,.96);
-  border:1px solid #242d42;
-  border-radius:22px;
-  display:flex;
-  justify-content:space-around;
-  padding:10px 4px;
-  backdrop-filter:blur(15px);
-}
-
-.nav button{
-  background:none;
-  border:0;
-  color:#68738b;
-  font-size:10px;
-  padding:7px;
-}
-
-.nav button span{
-  display:block;
-  font-size:20px;
-  margin-bottom:4px;
-}
-
-.nav button.active{
-  color:#70a0ff;
-}
-
-.voice{
-  position:fixed;
-  bottom:85px;
-  right:22px;
-  width:58px;
-  height:58px;
-  border-radius:50%;
-  border:1px solid #426dff;
-  background:#121a32;
-  color:white;
-  font-size:23px;
-  box-shadow:0 0 25px #3158d8;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="app">
-
-  <div class="top">
-    <div class="logo">YADAV AI</div>
-    <div class="status">● ONLINE</div>
-  </div>
-
-  <div class="subtitle">Your personal intelligent assistant</div>
-
-  <div class="home">
-
-    <div class="orb-area">
-      <div class="orb"></div>
-    </div>
-
-    <div class="greeting">
-      <h1>Hello, Yadav 👋</h1>
-      <p>How can I assist you today?</p>
-    </div>
-
-    <div class="cards">
-
-      <div class="card">
-        <div class="icon">🧠</div>
-        <h3>Memory</h3>
-        <p>Your personal memories</p>
+        <div className="system-footnote mt-5 hidden items-center justify-between px-1 text-[10px] text-muted-foreground sm:flex">
+          <span className="flex items-center gap-2"><ShieldCheck className="size-3.5 text-primary" aria-hidden="true" /> PRIVATE BY DESIGN</span>
+          <span className="flex items-center gap-2 font-mono"><Cpu className="size-3.5" aria-hidden="true" /> LATENCY 18MS <span className="mx-1 text-border">/</span> <TerminalSquare className="size-3.5" aria-hidden="true" /> BUILD 28.04</span>
+        </div>
       </div>
 
-      <div class="card">
-        <div class="icon">✦</div>
-        <h3>YADAV AI</h3>
-        <p>Talk with your AI</p>
-      </div>
-
-      <div class="card">
-        <div class="icon">♟</div>
-        <h3>Soul</h3>
-        <p>Personality & behaviour</p>
-      </div>
-
-      <div class="card">
-        <div class="icon">⚙</div>
-        <h3>Settings</h3>
-        <p>Customize assistant</p>
-      </div>
-
-    </div>
-
-    <div class="intelligence">
-      <div class="intel-top">
-        <h3>Intelligence System</h3>
-        <div class="online">ACTIVE</div>
-      </div>
-
-      <div class="line">
-        <span></span>
-      </div>
-
-      <div class="log">
-        System ready • Voice engine ready • AI core online
-      </div>
-    </div>
-
-  </div>
-
-  <div class="chat">
-
-    <div class="messages" id="messages">
-      <div class="message ai">
-        Hello 👋 I'm YADAV AI. How can I help you?
-      </div>
-    </div>
-
-    <div class="input-area">
-      <input id="textInput" placeholder="Message YADAV AI...">
-      <button onclick="sendMessage()">➤</button>
-    </div>
-
-  </div>
-
-</div>
-
-<button class="voice" onclick="startVoice()">🎙️</button>
-
-<div class="nav">
-  <button class="active" onclick="homePage(this)">
-    <span>⌂</span>Home
-  </button>
-
-  <button onclick="chatPage(this)">
-    <span>✦</span>YADAV AI
-  </button>
-
-  <button onclick="startVoice()">
-    <span>🎙</span>Voice
-  </button>
-
-  <button>
-    <span>◷</span>History
-  </button>
-
-  <button>
-    <span>⚙</span>Settings
-  </button>
-</div>
-
-<script>
-
-const home = document.querySelector(".home");
-const chat = document.querySelector(".chat");
-const input = document.getElementById("textInput");
-const messages = document.getElementById("messages");
-
-function chatPage(btn){
-  home.style.display="none";
-  chat.style.display="block";
-
-  document.querySelectorAll(".nav button")
-    .forEach(b=>b.classList.remove("active"));
-
-  btn.classList.add("active");
-
-  input.focus();
+      <nav className="bottom-nav fixed inset-x-0 bottom-0 z-20 mx-auto w-full max-w-6xl px-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-8" aria-label="Main navigation">
+        <div className="bottom-nav-inner mx-auto flex max-w-lg items-center justify-around rounded-2xl border border-border/80 px-2 py-2">
+          {navItems.map(({ name, icon: Icon }) => (
+            <button
+              key={name}
+              type="button"
+              onClick={() => setActiveNav(name)}
+              aria-current={activeNav === name ? 'page' : undefined}
+              className={`bottom-nav-item flex min-w-16 flex-col items-center gap-1 rounded-xl px-3 py-2 text-[10px] transition-colors ${activeNav === name ? 'bottom-nav-item-active' : ''}`}
+            >
+              <Icon aria-hidden="true" />
+              <span>{name}</span>
+            </button>
+          ))}
+        </div>
+      </nav>
+    </main>
+  )
 }
 
-function homePage(btn){
-  home.style.display="block";
-  chat.style.display="none";
-
-  document.querySelectorAll(".nav button")
-    .forEach(b=>b.classList.remove("active"));
-
-  btn.classList.add("active");
-}
-
-function addMessage(text,type){
-  const div=document.createElement("div");
-  div.className="message "+type;
-  div.textContent=text;
-  messages.appendChild(div);
-  messages.scrollTop=messages.scrollHeight;
-}
-
-function sendMessage(){
-
-  const text=input.value.trim();
-
-  if(!text) return;
-
-  addMessage(text,"user");
-  input.value="";
-
-  setTimeout(()=>{
-    addMessage(
-      "I'm ready 🤖. Gemini AI connection will be added next.",
-      "ai"
-    );
-  },500);
-}
-
-input.addEventListener("keydown",function(e){
-  if(e.key==="Enter"){
-    sendMessage();
-  }
-});
-
-function startVoice(){
-
-  if(!("webkitSpeechRecognition" in window)){
-    alert("Voice recognition is not supported in this browser.");
-    return;
-  }
-
-  const recognition=new webkitSpeechRecognition();
-
-  recognition.lang="hi-IN";
-  recognition.continuous=false;
-  recognition.interimResults=false;
-
-  recognition.start();
-
-  recognition.onresult=function(event){
-
-    const text=event.results[0][0].transcript;
-
-    chatPage(document.querySelectorAll(".nav button")[1]);
-
-    input.value=text;
-
-    sendMessage();
-  };
-
-  recognition.onerror=function(){
-    alert("Voice recognition failed. Please try again.");
-  };
-}
-
-</script>
-
-</body>
-        </html>
+export default AiDashboard
+            
