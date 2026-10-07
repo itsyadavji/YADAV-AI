@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YADAV AI</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  background:#05070d;
+  color:white;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+.app{
+  max-width:500px;
+  min-height:100vh;
+  margin:auto;
+  padding:20px 16px 90px;
+  background:
+    radial-gradient(circle at 50% 25%,#172044 0%,#080b14 32%,#05070d 70%);
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:24px;
+  font-weight:800;
+  letter-spacing:2px;
+}
+
+.status{
+  font-size:11px;
+  color:#55ffb0;
+  border:1px solid #235f49;
+  padding:6px 10px;
+  border-radius:20px;
+}
+
+.subtitle{
+  margin-top:8px;
+  color:#7f8aa3;
+  font-size:13px;
+}
+
+.orb-area{
+  height:330px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.orb{
+  width:190px;
+  height:190px;
+  border-radius:50%;
+  position:relative;
+  background:
+    radial-gradient(circle at 40% 35%,#ffffff 0%,#9adfff 5%,#477cff 20%,#7b22ff 42%,#111a4b 65%,#05070d 75%);
+  box-shadow:
+    0 0 25px #477cff,
+    0 0 70px #633cff,
+    0 0 130px #252dff;
+  animation:pulse 3s infinite ease-in-out;
+}
+
+.orb:before,
+.orb:after{
+  content:"";
+  position:absolute;
+  inset:-20px;
+  border:1px solid rgba(95,145,255,.35);
+  border-radius:50%;
+  animation:spin 8s linear infinite;
+}
+
+.orb:after{
+  inset:-35px;
+  border-color:rgba(155,80,255,.2);
+  animation-direction:reverse;
+  animation-duration:12s;
+}
+
+@keyframes pulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.06)}
+}
+
+@keyframes spin{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
+
+.greeting{
+  text-align:center;
+  margin-top:-15px;
+}
+
+.greeting h1{
+  font-size:27px;
+}
+
+.greeting p{
+  color:#8c96ad;
+  margin-top:7px;
+  font-size:14px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:25px;
+}
+
+.card{
+  background:rgba(16,20,34,.85);
+  border:1px solid #202941;
+  border-radius:18px;
+  padding:18px;
+  min-height:115px;
+}
+
+.card .icon{
+  font-size:24px;
+  margin-bottom:12px;
+}
+
+.card h3{
+  font-size:15px;
+  margin-bottom:5px;
+}
+
+.card p{
+  color:#727d95;
+  font-size:11px;
+}
+
+.intelligence{
+  margin-top:14px;
+  background:rgba(16,20,34,.9);
+  border:1px solid #202941;
+  border-radius:18px;
+  padding:18px;
+}
+
+.intel-top{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+.intel-top h3{
+  font-size:15px;
+}
+
+.online{
+  color:#55ffb0;
+  font-size:11px;
+}
+
+.line{
+  height:7px;
+  background:#20283a;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.line span{
+  display:block;
+  width:82%;
+  height:100%;
+  background:linear-gradient(90deg,#477cff,#a348ff);
+  border-radius:10px;
+}
+
+.log{
+  margin-top:13px;
+  color:#69748c;
+  font-size:11px;
+}
+
+.chat{
+  display:none;
+  margin-top:20px;
+}
+
+.messages{
+  height:55vh;
+  overflow-y:auto;
+  padding:5px;
+}
+
+.message{
+  padding:12px 14px;
+  margin:8px 0;
+  border-radius:15px;
+  max-width:85%;
+  font-size:14px;
+  line-height:1.4;
+}
+
+.user{
+  margin-left:auto;
+  background:#263a75;
+}
+
+.ai{
+  background:#151b2b;
+  border:1px solid #273149;
+}
+
+.input-area{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+}
+
+.input-area input{
+  flex:1;
+  background:#111625;
+  color:white;
+  border:1px solid #29334a;
+  border-radius:14px;
+  padding:14px;
+  outline:none;
+}
+
+.input-area button{
+  width:50px;
+  border:0;
+  border-radius:14px;
+  background:#477cff;
+  color:white;
+  font-size:20px;
+}
+
+.nav{
+  position:fixed;
+  bottom:10px;
+  left:50%;
+  transform:translateX(-50%);
+  width:calc(100% - 24px);
+  max-width:476px;
+  background:rgba(12,16,28,.96);
+  border:1px solid #242d42;
+  border-radius:22px;
+  display:flex;
+  justify-content:space-around;
+  padding:10px 4px;
+  backdrop-filter:blur(15px);
+}
+
+.nav button{
+  background:none;
+  border:0;
+  color:#68738b;
+  font-size:10px;
+  padding:7px;
+}
+
+.nav button span{
+  display:block;
+  font-size:20px;
+  margin-bottom:4px;
+}
+
+.nav button.active{
+  color:#70a0ff;
+}
+
+.voice{
+  position:fixed;
+  bottom:85px;
+  right:22px;
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  border:1px solid #426dff;
+  background:#121a32;
+  color:white;
+  font-size:23px;
+  box-shadow:0 0 25px #3158d8;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="top">
+    <div class="logo">YADAV AI</div>
+    <div class="status">● ONLINE</div>
+  </div>
+
+  <div class="subtitle">Your personal intelligent assistant</div>
+
+  <div class="home">
+
+    <div class="orb-area">
+      <div class="orb"></div>
+    </div>
+
+    <div class="greeting">
+      <h1>Hello, Yadav 👋</h1>
+      <p>How can I assist you today?</p>
+    </div>
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="icon">🧠</div>
+        <h3>Memory</h3>
+        <p>Your personal memories</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">✦</div>
+        <h3>YADAV AI</h3>
+        <p>Talk with your AI</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">♟</div>
+        <h3>Soul</h3>
+        <p>Personality & behaviour</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">⚙</div>
+        <h3>Settings</h3>
+        <p>Customize assistant</p>
+      </div>
+
+    </div>
+
+    <div class="intelligence">
+      <div class="intel-top">
+        <h3>Intelligence System</h3>
+        <div class="online">ACTIVE</div>
+      </div>
+
+      <div class="line">
+        <span></span>
+      </div>
+
+      <div class="log">
+        System ready • Voice engine ready • AI core online
+      </div>
+    </div>
+
+  </div>
+
+  <div class="chat">
+
+    <div class="messages" id="messages">
+      <div class="message ai">
+        Hello 👋 I'm YADAV AI. How can I help you?
+      </div>
+    </div>
+
+    <div class="input-area">
+      <input id="textInput" placeholder="Message YADAV AI...">
+      <button onclick="sendMessage()">➤</button>
+    </div>
+
+  </div>
+
+</div>
+
+<button class="voice" onclick="startVoice()">🎙️</button>
+
+<div class="nav">
+  <button class="active" onclick="homePage(this)">
+    <span>⌂</span>Home
+  </button>
+
+  <button onclick="chatPage(this)">
+    <span>✦</span>YADAV AI
+  </button>
+
+  <button onclick="startVoice()">
+    <span>🎙</span>Voice
+  </button>
+
+  <button>
+    <span>◷</span>History
+  </button>
+
+  <button>
+    <span>⚙</span>Settings
+  </button>
+</div>
+
+<script>
+
+const home = document.querySelector(".home");
+const chat = document.querySelector(".chat");
+const input = document.getElementById("textInput");
+const messages = document.getElementById("messages");
+
+function chatPage(btn){
+  home.style.display="none";
+  chat.style.display="block";
+
+  document.querySelectorAll(".nav button")
+    .forEach(b=>b.classList.remove("active"));
+
+  btn.classList.add("active");
+
+  input.focus();
+}
+
+function homePage(btn){
+  home.style.display="block";
+  chat.style.display="none";
+
+  document.querySelectorAll(".nav button")
+    .forEach(b=>b.classList.remove("active"));
+
+  btn.classList.add("active");
+}
+
+function addMessage(text,type){
+  const div=document.createElement("div");
+  div.className="message "+type;
+  div.textContent=text;
+  messages.appendChild(div);
+  messages.scrollTop=messages.scrollHeight;
+}
+
+function sendMessage(){
+
+  const text=input.value.trim();
+
+  if(!text) return;
+
+  addMessage(text,"user");
+  input.value="";
+
+  setTimeout(()=>{
+    addMessage(
+      "I'm ready 🤖. Gemini AI connection will be added next.",
+      "ai"
+    );
+  },500);
+}
+
+input.addEventListener("keydown",function(e){
+  if(e.key==="Enter"){
+    sendMessage();
+  }
+});
+
+function startVoice(){
+
+  if(!("webkitSpeechRecognition" in window)){
+    alert("Voice recognition is not supported in this browser.");
+    return;
+  }
+
+  const recognition=new webkitSpeechRecognition();
+
+  recognition.lang="hi-IN";
+  recognition.continuous=false;
+  recognition.interimResults=false;
+
+  recognition.start();
+
+  recognition.onresult=function(event){
+
+    const text=event.results[0][0].transcript;
+
+    chatPage(document.querySelectorAll(".nav button")[1]);
+
+    input.value=text;
+
+    sendMessage();
+  };
+
+  recognition.onerror=function(){
+    alert("Voice recognition failed. Please try again.");
+  };
+}
+
+</script>
+
+</body>
+        </html>
